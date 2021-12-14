@@ -64,11 +64,11 @@ public class HttpClientConnection extends Thread {
             bufferedReader = new BufferedReader(new InputStreamReader(inputStream) );
 
             // check if get method is being used
-            if (getMethod(bufferedReader)!="GET"){
-            //     String resp = "HTTP/1.1 405 Method is Not Allowed" + CRLF + CRLF + getMethod(bufferedReader) +" not supported" +CRLF;
-            //     outputStream.write(resp.getBytes());
-            // String a = getMethod(bufferedReader);
-            System.out.println("GET method not used. Method used is "+ getMethod(bufferedReader) );
+            if (!getMethod(bufferedReader).equals("GET")){
+                // String resp = "HTTP/1.1 405 Method is Not Allowed" + CRLF + CRLF + getMethod(bufferedReader) +" not supported" +CRLF;
+                // outputStream.write(resp.getBytes());
+                // String a = getMethod(bufferedReader);
+                System.out.println("GET method not used. Method used is "+ getMethod(bufferedReader) );
             }
             
             String html = "<html><link rel='stylesheet' href='style.css'><title>http server</title><body><h1>Hello World</h1><img src='./rainbow.png' width = 100vw><p><a href='./aboutme.html'>About me</a></p></body></html>";
