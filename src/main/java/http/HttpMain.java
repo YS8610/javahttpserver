@@ -25,20 +25,20 @@ public class HttpMain
             return cmdArg;
         }
         else if (cmdlineArgs.length ==2|| cmdlineArgs.length ==3 && null!=cmdlineArgs){
-            if (cmdlineArgs[0] == "--port")
+            if (cmdlineArgs[0].equals("--port") )
             {
                 cmdArg[0] = cmdlineArgs[1];
             }
-            else if (cmdlineArgs[0] == "--docRoot"){
+            else if (cmdlineArgs[0].equals("--docRoot") ){
                 cmdArg[1] = cmdlineArgs[1];
             }
         }
         else if (cmdlineArgs.length ==4 && null!=cmdlineArgs){
-            if (cmdlineArgs[0] == "--port" && cmdlineArgs[2] == "--docRoot"){
+            if (cmdlineArgs[0].equals("--port")  && cmdlineArgs[2].equals("--docRoot") ){
                 cmdArg[0] = cmdlineArgs[1];
                 cmdArg[1] = cmdlineArgs[3];
             }
-            else if (cmdlineArgs[2] == "--docRoot" && cmdlineArgs[0] == "--port"){
+            else if (cmdlineArgs[2].equals("--docRoot") && cmdlineArgs[0].equals("--port")){
                 cmdArg[0] = cmdlineArgs[3];
                 cmdArg[1] = cmdlineArgs[1];
             }
