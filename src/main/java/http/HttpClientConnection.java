@@ -24,7 +24,7 @@ public class HttpClientConnection extends Thread {
             inputStream = socket.getInputStream();
             outputStream = socket.getOutputStream();
 
-            int _byte;
+            // int _byte;
 
             // while ( (_byte = bufferedInputStream.read()) >=0 ){
             //     System.out.println((char)_byte);
