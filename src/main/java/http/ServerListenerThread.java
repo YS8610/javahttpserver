@@ -3,7 +3,7 @@ package http;
 import java.io.*;
 import java.net.*;
 
-// Thread for listening for client connection
+// Thread for listening for client connection done. 
 public class ServerListenerThread extends Thread{
 
     private int port;
@@ -24,14 +24,22 @@ public class ServerListenerThread extends Thread{
             while(serverSocket.isBound() && !serverSocket.isClosed()){
                 Socket socket = serverSocket.accept();
                 System.out.println("Connection accepted at " + socket.getInetAddress());
-                HTTPConnectionWorkerThread workerThread = new HTTPConnectionWorkerThread(socket); 
+                HttpClientConnection workerThread = new HttpClientConnection(socket); 
                 workerThread.start();
             }
-            // serverSocket.close();
         } 
         catch (IOException e) {
             e.printStackTrace();
         }
+        finally{
+            if (serverSocket!=null){
+                try {
+                    serverSocket.close();
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
-
 }
