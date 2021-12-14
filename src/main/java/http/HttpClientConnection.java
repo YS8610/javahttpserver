@@ -69,20 +69,19 @@ public class HttpClientConnection extends Thread {
                 outputStream.write(resp.getBytes());
                 System.out.println("GET method not used. Method used is "+ getMethod(bufferedReader) );
             }
-            
-            String html = "<html><link rel='stylesheet' href='style.css'><title>http server</title><body><h1>Hello World</h1><img src='./rainbow.png' width = 100vw><p><a href='./aboutme.html'>About me</a></p></body></html>";
-            System.out.println(html1);
-            String response = 
-                    "HTTP/1.1 200 OK" + CRLF + //http response code
-                    "Content-Length: " +  html.getBytes().length + CRLF + //header
-                    CRLF+
-                    html+
-                    CRLF+CRLF;
-
-            outputStream.write(response.getBytes());
+            else{
+                String html = "<html><link rel='stylesheet' href='style.css'><title>http server</title><body><h1>Hello World</h1><img src='./rainbow.png' width = 100vw><p><a href='./aboutme.html'>About me</a></p></body></html>";
+                System.out.println(html1);
+                String response = 
+                        "HTTP/1.1 200 OK" + CRLF + //http response code
+                        "Content-Length: " +  html.getBytes().length + CRLF + //header
+                        CRLF+
+                        html+
+                        CRLF+CRLF;
+                outputStream.write(response.getBytes());
+            }
 
             System.out.println( "Processing of connection done");
-            
         } 
         catch (IOException e) {
             e.printStackTrace();
