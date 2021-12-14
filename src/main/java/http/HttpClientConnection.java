@@ -65,9 +65,8 @@ public class HttpClientConnection extends Thread {
 
             // check if get method is being used
             if (!getMethod(bufferedReader).equals("GET")){
-                // String resp = "HTTP/1.1 405 Method is Not Allowed" + CRLF + CRLF + getMethod(bufferedReader) +" not supported" +CRLF;
-                // outputStream.write(resp.getBytes());
-                // String a = getMethod(bufferedReader);
+                String resp = "HTTP/1.1 405 Method is Not Allowed" + CRLF + CRLF + getMethod(bufferedReader) +" not supported" +CRLF;
+                outputStream.write(resp.getBytes());
                 System.out.println("GET method not used. Method used is "+ getMethod(bufferedReader) );
             }
             
