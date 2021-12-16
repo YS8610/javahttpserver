@@ -19,8 +19,6 @@ public class ServerListenerThread extends Thread{
     @Override
     public void run(){
         try {
-            System.out.println("Starting Server at port " + this.port);
-
             while(serverSocket.isBound() && !serverSocket.isClosed()){
                 Socket socket = serverSocket.accept();
                 System.out.println("Connection accepted at " + socket.getInetAddress());
