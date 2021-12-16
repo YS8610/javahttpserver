@@ -3,7 +3,7 @@ package http;
 import java.io.*;
 // import java.net.*;
 
-// Server should be done. need to do the thread
+// Server should be done.
 public class HttpServer {
 
     int port;
@@ -22,15 +22,5 @@ public class HttpServer {
             e.printStackTrace();
         }
     }
-
-    // public static void main(String[] args) {
-        
-    //     try {
-    //         ServerListenerThread serverListenerThread = new ServerListenerThread(8080, "./index");
-    //         serverListenerThread.start();
-    //     } catch (IOException e) {
-    //         e.printStackTrace();
-    //     }
-    // }
 }
 
