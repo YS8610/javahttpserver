@@ -44,6 +44,26 @@ public class HttpClientConnection extends Thread {
         return html;
     }
 
+//open html file
+    private String openHTML(String htmlDir){
+        String line;
+        String html="";
+        List<String> listofString= new ArrayList<>();
+        try (Reader reader = new FileReader(htmlDir)){
+            BufferedReader br = new BufferedReader(reader);
+            while (null != (line = br.readLine())){
+                listofString.add(line);
+            }
+            for (String s : listofString){
+                html += s.trim();
+            }
+        } 
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        return html;
+    }
+
 //return all files in the webroot folder
     private Set<String> getFiles(String dir){
         return Stream.of(new File(dir).listFiles())
@@ -95,8 +115,8 @@ public class HttpClientConnection extends Thread {
         else{
             String resourceExt = queryUsed.substring(1).toLowerCase().split("\\.",2)[1];
             System.out.println(resourceExt);
+            byte[] header = res200(true).getBytes();
             if (resourceExt.equals("png")){
-                byte[] header = res200(true).getBytes();
                 BufferedImage imageRequested = ImageIO.read(new File(webroot+queryUsed));
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
                 ImageIO.write(imageRequested, "png", bos );
@@ -105,7 +125,9 @@ public class HttpClientConnection extends Thread {
                 httpWriter.flush();
             }
             else if (resourceExt.equals("html")){
-
+                String html = openHTML(webroot+queryUsed);
+                System.out.println(html);
+                httpWriter.writeString(res200(false)+html);
             }
         }
     }
@@ -118,7 +140,7 @@ public class HttpClientConnection extends Thread {
         BufferedReader bufferedReader = null;
         BufferedWriter bufferedWriter = null;
         List<String> htmlList = readFileBuffer(this.webroot+"/index.html");
-        String html1 = openHtmlFile(htmlList);
+        // String html1 = openHtmlFile(htmlList);
         Set<String> setofFile = getFiles(this.webroot);
 
         try {
@@ -137,24 +159,6 @@ public class HttpClientConnection extends Thread {
              //get content of file in directory
             // setofFile.forEach(System.out::println);
             parseRequest(requestMethod, query, outputStream,setofFile);
-
-            // check if get method is being used
-            // if (!requestMethod.equals("GET")){
-            //     String resp = "HTTP/1.1 405 Method is Not Allowed" + CRLF + CRLF + requestMethod +" not supported" +CRLF;
-            //     outputStream.write(resp.getBytes());
-            //     System.out.println("GET method not used. Method used is "+ requestMethod );
-            // }
-            // else{
-                // String html = "<html><link rel='stylesheet' href='style.css'><title>http server</title><body><h1>Hello World</h1><img src='./rainbow.png' width = 100vw><p><a href='./aboutme.html'>About me</a></p></body></html>";
-                // System.out.println(query.substring(1));
-                // String response = 
-                //         "HTTP/1.1 200 OK" + CRLF + //http response code
-                //         "Content-Length: " +  html.getBytes().length + CRLF + //header
-                //         CRLF+
-                //         html+
-                //         CRLF+CRLF;
-                // outputStream.write(response.getBytes());
-            // }
 
             System.out.println( "Processing of connection done");
         } 
