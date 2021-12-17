@@ -5,6 +5,8 @@ import java.net.*;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
 
 //Thread for processing client request
 public class HttpClientConnection extends Thread {
@@ -71,6 +73,13 @@ public class HttpClientConnection extends Thread {
         return response;
     }
 
+//concatenate 2 byte array
+    private byte[] concat2ByteArray(byte[] header, byte[] content){
+        byte[] c = new byte[header.length + content.length];
+        System.arraycopy(header, 0, c, 0, header.length);
+        System.arraycopy(content, 0, c, header.length, content.length);
+        return c;
+    }
 
 //parse request
     private void parseRequest(String methodUsed, String queryUsed, OutputStream outputStream, Set<String> setofFile) throws Exception {
@@ -81,8 +90,23 @@ public class HttpClientConnection extends Thread {
             httpWriter.writeString(res405(methodUsed));
         }
         else if (!setofFile.contains(queryUsed.substring(1).toLowerCase())) { //check if resource exists
-            System.out.println(queryUsed.substring(1).isBlank());
             httpWriter.writeString(res404(queryUsed));
+        }
+        else{
+            String resourceExt = queryUsed.substring(1).toLowerCase().split("\\.",2)[1];
+            System.out.println(resourceExt);
+            if (resourceExt.equals("png")){
+                byte[] header = res200(true).getBytes();
+                BufferedImage imageRequested = ImageIO.read(new File(webroot+queryUsed));
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                ImageIO.write(imageRequested, "png", bos );
+                byte[] pngByte = bos.toByteArray();
+                httpWriter.writeBytes(concat2ByteArray(header, pngByte));
+                httpWriter.flush();
+            }
+            else if (resourceExt.equals("html")){
+
+            }
         }
     }
 
@@ -108,7 +132,7 @@ public class HttpClientConnection extends Thread {
             String requestMethod = parseHeader1st.nextToken().toUpperCase();
             String query = parseHeader1st.nextToken();
             
-            setofFile.forEach(System.out::println);
+            // setofFile.forEach(System.out::println);
 
              //get content of file in directory
             // setofFile.forEach(System.out::println);
@@ -121,15 +145,15 @@ public class HttpClientConnection extends Thread {
             //     System.out.println("GET method not used. Method used is "+ requestMethod );
             // }
             // else{
-                String html = "<html><link rel='stylesheet' href='style.css'><title>http server</title><body><h1>Hello World</h1><img src='./rainbow.png' width = 100vw><p><a href='./aboutme.html'>About me</a></p></body></html>";
-                System.out.println(query.substring(1));
-                String response = 
-                        "HTTP/1.1 200 OK" + CRLF + //http response code
-                        "Content-Length: " +  html.getBytes().length + CRLF + //header
-                        CRLF+
-                        html+
-                        CRLF+CRLF;
-                outputStream.write(response.getBytes());
+                // String html = "<html><link rel='stylesheet' href='style.css'><title>http server</title><body><h1>Hello World</h1><img src='./rainbow.png' width = 100vw><p><a href='./aboutme.html'>About me</a></p></body></html>";
+                // System.out.println(query.substring(1));
+                // String response = 
+                //         "HTTP/1.1 200 OK" + CRLF + //http response code
+                //         "Content-Length: " +  html.getBytes().length + CRLF + //header
+                //         CRLF+
+                //         html+
+                //         CRLF+CRLF;
+                // outputStream.write(response.getBytes());
             // }
 
             System.out.println( "Processing of connection done");
