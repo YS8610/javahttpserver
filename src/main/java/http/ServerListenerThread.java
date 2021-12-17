@@ -2,6 +2,8 @@ package http;
 
 import java.io.*;
 import java.net.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 // Thread for listening for client connection done. 
 public class ServerListenerThread extends Thread{
@@ -23,7 +25,9 @@ public class ServerListenerThread extends Thread{
                 Socket socket = serverSocket.accept();
                 System.out.println("Connection accepted at " + socket.getInetAddress());
                 HttpClientConnection workerThread = new HttpClientConnection(socket,webroot); 
-                workerThread.start();
+                ExecutorService threadPool = Executors.newFixedThreadPool(3);
+                threadPool.submit(workerThread);
+                // workerThread.start();
             }
         } 
         catch (IOException e) {
