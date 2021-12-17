@@ -44,11 +44,13 @@ public class HttpMain
         // String[] commandArg = parseInput(args);
         String[] commandArg = cmdParser(args);
         int port = Integer.parseInt(commandArg[0]); //no checking of integer. Pls note
-        String dir = "./static";
+        // String dir = "./static";
+        String dir = commandArg[1];
         if (checkFolder(dir)){
             dir = commandArg[1];
         }
         else {
+            System.out.println("Directory does not exit.");
             System.exit(1);
         }
 
