@@ -20,30 +20,6 @@ public class HttpClientConnection extends Thread {
         this.webroot = webroot;
     }
 
-// read index file and return as arraylist of string
-    private List<String> readFileBuffer(String filename){
-        String line;
-        List<String> listofString= new ArrayList<>();
-        try (Reader reader = new FileReader(filename)){
-            BufferedReader br = new BufferedReader(reader);
-            while (null != (line = br.readLine())){
-                listofString.add(line);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return listofString;
-    }
-
-//concatenate list of string together
-    private String openHtmlFile( List<String> listofString){
-        String html="";
-        for (String s : listofString){
-            html += s.trim();
-        }
-        return html;
-    }
-
 //open html file
     private String openHTML(String htmlDir){
         String line;
@@ -124,10 +100,10 @@ public class HttpClientConnection extends Thread {
                 httpWriter.writeBytes(concat2ByteArray(header, pngByte));
                 httpWriter.flush();
             }
-            else if (resourceExt.equals("html")){
+            else if (resourceExt.equals("html") || resourceExt.equals("css") ){
                 String html = openHTML(webroot+queryUsed);
-                System.out.println(html);
                 httpWriter.writeString(res200(false)+html);
+                httpWriter.flush();
             }
         }
     }
@@ -139,8 +115,6 @@ public class HttpClientConnection extends Thread {
         OutputStream outputStream = null;
         BufferedReader bufferedReader = null;
         BufferedWriter bufferedWriter = null;
-        List<String> htmlList = readFileBuffer(this.webroot+"/index.html");
-        // String html1 = openHtmlFile(htmlList);
         Set<String> setofFile = getFiles(this.webroot);
 
         try {
@@ -153,19 +127,13 @@ public class HttpClientConnection extends Thread {
             StringTokenizer parseHeader1st = new StringTokenizer(header1stline);
             String requestMethod = parseHeader1st.nextToken().toUpperCase();
             String query = parseHeader1st.nextToken();
-            
-            // setofFile.forEach(System.out::println);
 
-             //get content of file in directory
-            // setofFile.forEach(System.out::println);
             parseRequest(requestMethod, query, outputStream,setofFile);
-
             System.out.println( "Processing of connection done");
         } 
         catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         finally {
@@ -173,21 +141,21 @@ public class HttpClientConnection extends Thread {
                 try {
                     bufferedReader.close();
                 } catch (IOException e) {
-                    //TODO: handle exception
+                    e.printStackTrace();
                 }
             }
             if (outputStream!= null){
                 try {
                     outputStream.close();
-                } catch (Exception e) {
-                    //TODO: handle exception
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
             if (socket!= null) {
                 try {
                     socket.close();
-                } catch (Exception e) {
-                    //TODO: handle exception
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         }
