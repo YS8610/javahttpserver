@@ -90,7 +90,7 @@ public class HttpClientConnection extends Thread {
         }
         else{
             String resourceExt = queryUsed.substring(1).toLowerCase().split("\\.",2)[1];
-            System.out.println(resourceExt);
+            // System.out.println(resourceExt);
             byte[] header = res200(true).getBytes();
             if (resourceExt.equals("png")){
                 BufferedImage imageRequested = ImageIO.read(new File(webroot+queryUsed));
@@ -114,14 +114,14 @@ public class HttpClientConnection extends Thread {
         InputStream inputStream = null;
         OutputStream outputStream = null;
         BufferedReader bufferedReader = null;
-        BufferedWriter bufferedWriter = null;
+        // BufferedWriter bufferedWriter = null;
         Set<String> setofFile = getFiles(this.webroot);
 
         try {
             inputStream = socket.getInputStream();
             outputStream = socket.getOutputStream();
             bufferedReader = new BufferedReader(new InputStreamReader(inputStream) );
-            bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream));
+            // bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream));
             
             String header1stline = bufferedReader.readLine();
             StringTokenizer parseHeader1st = new StringTokenizer(header1stline);
