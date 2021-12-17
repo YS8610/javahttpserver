@@ -23,7 +23,8 @@ public class HttpWriter {
         writeString("");
     }
     public void writeString(String line) throws Exception {
-        writeBytes("%s\r\n".formatted(line).getBytes("utf-8"));
+        // writeBytes("%s\r\n".formatted(line).getBytes("utf-8"));
+        writeBytes("%s".formatted(line).getBytes("utf-8"));
     }
 
     public void writeBytes(byte[] buffer) throws Exception {
