@@ -63,7 +63,6 @@ public class HttpMain
         List<String> listofDir = parseDir(commandArg[1]);
         listofDir.forEach(s -> {
             if (!checkFolder(s)){
-                System.out.println(s + " does not exist.");
                 System.exit(1);
             }
         });
