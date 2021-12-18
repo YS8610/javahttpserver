@@ -1,6 +1,7 @@
 package http;
 
 import java.io.*;
+import java.nio.file.*;
 import java.net.*;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -21,25 +22,18 @@ public class HttpClientConnection extends Thread {
     }
 
 //open html file
-    private String openHTML(String htmlDir){
-        String line;
-        String html="";
-        List<String> listofString= new ArrayList<>();
-        try (Reader reader = new FileReader(htmlDir)){
-            BufferedReader br = new BufferedReader(reader);
-            while (null != (line = br.readLine())){
-                listofString.add(line);
-            }
-            for (String s : listofString){
-                html += s.trim();
-            }
-        } 
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-        return html;
+private String openHTML(String htmlDir){
+    List<String> listofString= new ArrayList<>();
+    Path filepath = Paths.get(htmlDir);
+    String txt="";
+    try (BufferedReader reader = Files.newBufferedReader(filepath)) {
+        reader.lines().forEach(listofString::add);
+    } catch (IOException e) {
+        e.printStackTrace();
     }
-
+    for (String s: listofString){txt+=s;}
+    return txt;
+}
 //return all files in the webroot folder
     private Set<String> getFiles(String dir){
         return Stream.of(new File(dir).listFiles())
