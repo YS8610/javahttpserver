@@ -17,9 +17,9 @@ public class HttpMain
             return true;
         }
         else{
-            String isDir = Files.isDirectory(filePath)?"Path is a directory":"As Path is not a directory, System will exit";
-            String isRead = Files.isReadable(filePath)?"Path is readable":"As Path is not readable, System will exit";
-            String isExist = Files.exists(filePath)?"Path exists.":"As Path does not exist, System will exit";
+            String isDir = Files.isDirectory(filePath)?pathDirectory+" is a directory":"As "+ pathDirectory + " is not a directory, System will exit";
+            String isRead = Files.isReadable(filePath)?pathDirectory+" is readable":"As "+ pathDirectory + " is not readable, System will exit";
+            String isExist = Files.exists(filePath)?pathDirectory+" exists.":"As "+ pathDirectory + " does not exist, System will exit";
             System.out.println(isDir+"\n"+isRead+"\n"+isExist);
             return false;
         }
