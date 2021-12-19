@@ -5,7 +5,6 @@ import java.nio.file.*;
 import java.net.*;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
@@ -35,11 +34,21 @@ private String openHTML(String htmlDir){
     return txt;
 }
 //return all files in the webroot folder
-    private Set<String> getFiles(String dir){
-        return Stream.of(new File(dir).listFiles())
-        .filter(file -> !file.isDirectory())
-        .map(File::getName)
-        .collect(Collectors.toSet());
+    private Set<String> getFiles(String dir) {
+        Set<String> a = new HashSet<String>(); 
+        try {
+            a = Files.list(Path.of(dir))
+            .filter(path -> !Files.isDirectory(path))
+            .map(path -> path.getFileName().toString())
+            .collect(Collectors.toSet());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return a;
+        // return Stream.of(new File(dir).listFiles())
+        // .filter(file -> !file.isDirectory())
+        // .map(File::getName)
+        // .collect(Collectors.toSet());
     }
 //response405
     private String res405(String methodUsed){
