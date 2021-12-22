@@ -13,19 +13,19 @@ The Jar file can take in 2 optional command line arguments. If no command line a
 For example,
 > This will run server with default listening port 3000 and default directory at root ./static
 >
->>```java -jar javahttpserver.jar```
+>> ``` java -jar javahttpserver.jar ```
 <br>
 
->This will run server with listening port 5000 and default directory at root ./static
+> This will run server with listening port 5000 and default directory at root ./static
 >
->>```java -jar javahttpserver.jar --port 5000```
+>> ``` java -jar javahttpserver.jar --port 5000 ```
 <br>
 
->This will run server with default listening port 3000 and directory at root ./html
+> This will run server with default listening port 3000 and directory at root ./html
 >
->>```java -jar javahttpserver.jar --docRoot html```
+>> ``` java -jar javahttpserver.jar --docRoot html ```
 <br>
 
->This will run server with listening port 5000 and directory at root ./html
+> This will run server with listening port 5000 and directory at root ./html
 >
->>```java -jar javahttpserver.jar --docRoot html --port 5000```
+>> ``` java -jar javahttpserver.jar --docRoot html --port 5000 ```
