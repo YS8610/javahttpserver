@@ -1,6 +1,6 @@
-package http;
-
+package httpfileserver;
 import java.io.*;
+
 
 public class HttpWriter {
 
@@ -33,4 +33,5 @@ public class HttpWriter {
     public void writeBytes(byte[] buffer, int start, int offset) throws Exception {
         out.write(buffer, start, offset);
     }
+
 }
